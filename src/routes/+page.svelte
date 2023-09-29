@@ -7,6 +7,10 @@
 </div>
 
 <style>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+
 	:global(body, html) {
 		margin: 0;
 	}

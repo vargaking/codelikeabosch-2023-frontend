@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { T, extend, useThrelte, useFrame } from '@threlte/core';
 	import { Environment, interactivity, useInteractivity } from '@threlte/extras';
 	import { spring } from 'svelte/motion';
@@ -9,8 +9,33 @@
 	import Car from '$lib/assets/car/Car.svelte';
 	import Car2 from '$lib/assets/car/Car2.svelte';
 	import Road from '$lib/assets/road/Road.svelte';
-	import { speed } from '$lib/stores';
-	import { Fog } from 'three';
+	import { speed, world, tick, type WorldSnapshotType } from '$lib/stores';
+	import { radian } from '$lib/utils';
+	import { SphereGeometry } from 'three';
+
+	let currentData: WorldSnapshotType = world[0],
+		nextData: WorldSnapshotType = world[1],
+		currentTime: number,
+		dataDelta: number,
+		elapsed: number = 0;
+	const firstTime = world[0].time;
+
+	useFrame((_, delta) => {
+		if ($tick >= world.length - 1) return;
+		elapsed += delta;
+
+		currentData = world[$tick];
+		nextData = world[$tick + 1];
+
+		$speed = (currentData.host.v * 3600) / 1000;
+
+		dataDelta = nextData.time - currentData.time;
+		currentTime = currentData.time - firstTime;
+
+		if (elapsed >= nextData.time - firstTime) {
+			$tick += 1;
+		}
+	});
 
 	const { renderer, invalidate } = useThrelte();
 </script>
@@ -24,7 +49,7 @@
 />
 -->
 
-<T.Fog attach="fog" args={['#302f2f', 0, 50]} />
+<T.Fog attach="fog" args={['#302f2f', 0, 200]} />
 
 <T.PerspectiveCamera
 	makeDefault
@@ -43,4 +68,15 @@
 <T.DirectionalLight position={[3, 0, -1]} intensity={10} />
 
 <Road />
-<Car2 rotation.y={0} scale={2} />
+<Car2
+	rotation.y={currentData.host.yaw}
+	position={[currentData.host.y, 0, currentData.host.x]}
+	scale={2}
+/>
+
+{#each Object.entries(currentData.objects) as [key, object]}
+	<T.Mesh position={[object.y - currentData.host.y, 0.5, object.x - currentData.host.x]}>
+		<T.SphereGeometry args={[1, 32, 32]} />
+		<T.MeshStandardMaterial color="red" />
+	</T.Mesh>
+{/each}
