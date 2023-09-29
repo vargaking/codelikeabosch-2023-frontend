@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import Data from '../data/data.json';
+import Data from '../data/data_2.json';
 
 export const speed = writable(0);
 export type ObjectSnapshotType = {

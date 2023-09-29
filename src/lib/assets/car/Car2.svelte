@@ -21,7 +21,7 @@ Command: npx @threlte/gltf@1.0.1 static/car2.gltf
 	let wheelRotation = 0;
 
 	const wheelDiameter = 0.6; // meters
-	let wheelRotationPerSec = ($speed * 1000) / 3600 / (wheelDiameter * Math.PI); // calc speed in m/s, then divide by wheel circumference
+	$: wheelRotationPerSec = ($speed * 1000) / 3600 / (wheelDiameter * Math.PI); // calc speed in m/s, then divide by wheel circumference
 	console.log(wheelRotationPerSec);
 	useFrame((_, delta) => {
 		if (delta != 0) wheelRotation += radian(wheelRotationPerSec / 1 / delta);
