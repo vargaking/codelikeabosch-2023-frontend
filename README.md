@@ -8,4 +8,4 @@ This repository containts the code for the frontend of Bosch Hackathon challenge
 
 # Deployment
 
-The project is hosted at `https://codelikeabosch-2023-frontend.vercel.app/`
+The project is hosted at `https://codelikeabosch-2023.vercel.app/`
