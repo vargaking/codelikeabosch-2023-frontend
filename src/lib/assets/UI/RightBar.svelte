@@ -10,6 +10,18 @@
 		<CheckBox>Show speed</CheckBox>
 		<CheckBox>Show directions</CheckBox>
 	</div>
+
+	<p class="title">Logger</p>
+	<div class="log">
+		<span class="item">
+			<span class="time">2023.09.23. 13:05</span>
+			<span class="content">Server connected</span>
+		</span>
+		<span class="item">
+			<span class="time">2023.09.23. 13:07</span>
+			<span class="content">Crash detected</span>
+		</span>
+	</div>
 </nav>
 
 <style lang="scss">
@@ -33,5 +45,16 @@
 		font-style: normal;
 		font-weight: 600;
 		line-height: normal;
+	}
+
+	.log {
+		background-color: #edecec;
+		padding: 10px;
+		border-radius: 10px;
+	}
+
+	.item {
+		display: flex;
+		justify-content: space-between;
 	}
 </style>
