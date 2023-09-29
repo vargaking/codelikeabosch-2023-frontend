@@ -10,6 +10,8 @@
 
 		stats.showPanel(0);
 
+		stats.dom.style.top = '80px';
+
 		document.body.appendChild(stats.dom);
 
 		function animate() {
@@ -26,16 +28,16 @@
 	});
 </script>
 
-<div class="container">
+<div class="logger-container">
 	<p>{$speed} km/h</p>
 	<p>{speedMetersPerSecond.toFixed(1)} m/s</p>
 </div>
 
 <style lang="scss">
-	.container {
+	.logger-container {
 		position: fixed;
-		top: 0;
-		right: 0;
+		top: 80px;
+		right: 392px;
 		padding: 10px 20px;
 		background-color: rgba(0, 0, 0, 0.5);
 		color: white;
