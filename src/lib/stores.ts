@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
+import Data from '../data/data.json';
 
 export const speed = writable(0);
-
 export type ObjectSnapshotType = {
 	x: number;
 	y: number;
@@ -14,32 +14,10 @@ export type ObjectSnapshotType = {
 export type WorldSnapshotType = {
 	tick: number;
 	time: number;
+	host: ObjectSnapshotType;
 	objects: ObjectSnapshotType[];
 };
 
-export const world: WorldSnapshotType[] = [
-	{
-		tick: 0,
-		time: 33.241503657,
-		objects: [
-			{
-				x: 0,
-				y: 0,
-				vx: 0,
-				vy: 0,
-				v: 0,
-				yaw: 0
-			}
-		]
-	},
-	{
-		tick: 1,
-		time: 33.335959518,
-		objects: []
-	},
-	{
-		tick: 2,
-		time: 33.429725329,
-		objects: []
-	}
-];
+export const tick = writable(0);
+
+export const world: WorldSnapshotType[] = Data;

@@ -3,10 +3,16 @@
 	import { Canvas } from '@threlte/core';
 	import Scene from './Scene/Scene.svelte';
 	import DataLogger from '$lib/dataLogger/DataLogger.svelte';
-	import { speed } from '$lib/stores';
+	import { speed, tick, world } from '$lib/stores';
 	import RightBar from '$lib/assets/UI/RightBar.svelte';
+	import { onMount } from 'svelte';
 
-	$speed = 5;
+	let delta;
+
+	onMount(() => {
+		console.log(world[$tick + 1].time - world[$tick].time);
+		delta = world[$tick + 1].time - world[$tick].time;
+	});
 </script>
 
 <TopBar />

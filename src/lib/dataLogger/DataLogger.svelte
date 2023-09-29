@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { speed } from '$lib/stores';
+	import { speed, tick, world } from '$lib/stores';
 	import Stats from 'stats.js';
 	import { onMount } from 'svelte';
 
-	let speedMetersPerSecond = ($speed * 1000) / 3600;
+	$: speedMetersPerSecond = ($speed * 1000) / 3600;
+
+	const firstTime = world[0].time;
 
 	onMount(() => {
 		let stats = new Stats();
@@ -29,8 +31,10 @@
 </script>
 
 <div class="logger-container">
-	<p>{$speed} km/h</p>
+	<p>{$speed.toFixed(1)} km/h</p>
 	<p>{speedMetersPerSecond.toFixed(1)} m/s</p>
+	<p>{$tick} tick</p>
+	<p>{(world[$tick].time - firstTime).toFixed(2)}s time</p>
 </div>
 
 <style lang="scss">
