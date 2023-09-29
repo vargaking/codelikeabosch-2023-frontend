@@ -4,9 +4,11 @@ Command: npx @threlte/gltf@1.0.1 static/car2.gltf
 -->
 
 <script>
+	import { speed } from '$lib/stores';
 	import { Group } from 'three';
-	import { T, forwardEventHandlers } from '@threlte/core';
-	import { useGltf, useGltfAnimations } from '@threlte/extras';
+	import { T, forwardEventHandlers, useFrame } from '@threlte/core';
+	import { useGltf, useGltfAnimations, useInteractivity } from '@threlte/extras';
+	import { onMount } from 'svelte';
 
 	export const ref = new Group();
 
@@ -14,9 +16,19 @@ Command: npx @threlte/gltf@1.0.1 static/car2.gltf
 	export const { actions, mixer } = useGltfAnimations(gltf, ref);
 
 	const component = forwardEventHandlers();
+
+	let wheelRotation = 0;
+
+	const wheelDiameter = 0.6; // meters
+	let wheelRotationPerSec = ($speed * 1000) / 3600 / (wheelDiameter * Math.PI); // calc speed in m/s, then divide by wheel circumference
+	useFrame((_, delta) => {
+		if (delta != 0) wheelRotation += wheelRotationPerSec / 1 / delta;
+	});
+
+	useInteractivity();
 </script>
 
-<T is={ref} dispose={false} {...$$restProps} bind:this={$component}>
+<T is={ref} dispose={false} {...$$restProps} bind:this={$component} castShadow>
 	{#await gltf}
 		<slot name="fallback" />
 	{:then gltf}
@@ -85,6 +97,7 @@ Command: npx @threlte/gltf@1.0.1 static/car2.gltf
 				geometry={gltf.nodes['rim-fl'].geometry}
 				material={gltf.materials.rim}
 				position={[0.86, 0.33, 1.53]}
+				rotation.x={wheelRotation}
 			/>
 			<T.Mesh
 				name="disk-fl"
@@ -103,6 +116,7 @@ Command: npx @threlte/gltf@1.0.1 static/car2.gltf
 				geometry={gltf.nodes['tire1-fl'].geometry}
 				material={gltf.materials['tire-brakes']}
 				position={[0.8, 0.33, 1.53]}
+				rotation.x={wheelRotation}
 			/>
 			<T.Mesh
 				name="caliper-rl"
@@ -121,12 +135,14 @@ Command: npx @threlte/gltf@1.0.1 static/car2.gltf
 				geometry={gltf.nodes['rim-rl'].geometry}
 				material={gltf.materials.rim}
 				position={[0.86, 0.33, -1.35]}
+				rotation.x={wheelRotation}
 			/>
 			<T.Mesh
 				name="tire1-rl"
 				geometry={gltf.nodes['tire1-rl'].geometry}
 				material={gltf.materials['tire-brakes']}
 				position={[0.8, 0.33, -1.35]}
+				rotation.x={wheelRotation}
 			/>
 			<T.Mesh
 				name="caliper-rr"
@@ -157,24 +173,28 @@ Command: npx @threlte/gltf@1.0.1 static/car2.gltf
 				geometry={gltf.nodes['rim-rr'].geometry}
 				material={gltf.materials.rim}
 				position={[-0.86, 0.33, -1.35]}
+				rotation.x={wheelRotation}
 			/>
 			<T.Mesh
 				name="rim-fr"
 				geometry={gltf.nodes['rim-fr'].geometry}
 				material={gltf.materials.rim}
 				position={[-0.86, 0.33, 1.53]}
+				rotation.x={wheelRotation}
 			/>
 			<T.Mesh
 				name="tire1-rr"
 				geometry={gltf.nodes['tire1-rr'].geometry}
 				material={gltf.materials['tire-brakes']}
 				position={[-0.8, 0.33, -1.35]}
+				rotation.x={wheelRotation}
 			/>
 			<T.Mesh
 				name="tire1-fr"
 				geometry={gltf.nodes['tire1-fr'].geometry}
 				material={gltf.materials['tire-brakes']}
 				position={[-0.8, 0.33, 1.53]}
+				rotation.x={wheelRotation}
 			/>
 		</T.Group>
 	{:catch error}

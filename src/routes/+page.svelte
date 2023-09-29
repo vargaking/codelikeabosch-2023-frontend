@@ -12,7 +12,7 @@
 	}
 
 	:global(canvas) {
-		background-color: #a0a0a0;
+		background-color: #4d4d4d;
 	}
 
 	div {
