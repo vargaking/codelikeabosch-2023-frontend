@@ -4,7 +4,7 @@
 	import DataLogger from '$lib/dataLogger/DataLogger.svelte';
 	import { speed } from '$lib/stores';
 
-	$speed = 40;
+	$speed = 5;
 </script>
 
 <Canvas>
