@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isPlaying } from '$lib/stores';
+	import { backend_url, isPlaying } from '$lib/stores';
 	import CheckBox from './CheckBox.svelte';
 </script>
 
@@ -20,7 +20,12 @@
 	</div>
 
 	<p class="title">Settings</p>
-
+	<input
+		type="text"
+		placeholder="Backend url"
+		bind:value={$backend_url}
+		class="input input-bordered w-full max-w-xs"
+	/>
 	<div class="group">
 		<CheckBox>Show render stats</CheckBox>
 		<CheckBox>Show speed</CheckBox>
