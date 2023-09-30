@@ -24,25 +24,25 @@
 		if (tick == 0) return;
 		$tick = tick;
 		try {
-			elapsed = $world[tick].time - firstTime;
+			elapsed = $world.snapshots[tick].time - firstTime;
 		} catch {
 			elapsed = 0;
 		}
 	});
 
-	if ($world.length > 0) {
-		currentData = $world[0];
-		nextData = $world[1];
-		firstTime = $world[0].time;
+	if ($world.snapshots.length > 0) {
+		currentData = $world.snapshots[0];
+		nextData = $world.snapshots[1];
+		firstTime = $world.snapshots[0].time;
 	}
 
 	useFrame((_, delta) => {
-		if ($tick >= $world.length - 1) return;
+		if ($tick >= $world.snapshots.length - 1) return;
 		if (!$isPlaying) return;
 		elapsed += delta;
 
-		currentData = $world[$tick];
-		nextData = $world[$tick + 1];
+		currentData = $world.snapshots[$tick];
+		nextData = $world.snapshots[$tick + 1];
 
 		$speed = (currentData.host.v * 3600) / 1000;
 
@@ -96,6 +96,6 @@
 {#each Object.entries(currentData.objects) as [key, object]}
 	<T.Mesh position={[object.y, 0.5, object.x]}>
 		<T.SphereGeometry args={[1, 32, 32]} />
-		<T.MeshStandardMaterial color="red" />
+		<T.MeshStandardMaterial color={$world.object_meta[key].color} />
 	</T.Mesh>
 {/each}

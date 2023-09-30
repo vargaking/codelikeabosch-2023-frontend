@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { sliderTick, tick, world, isPlaying } from '$lib/stores';
 
-	$: value = (($world[$tick].time - $world[0].time) / maxTime) * 100;
+	$: value = (($world.snapshots[$tick].time - $world.snapshots[0].time) / maxTime) * 100;
 
-	let maxTime = $world[$world.length - 1].time - $world[0].time;
+	let maxTime = $world.snapshots[$world.snapshots.length - 1].time - $world.snapshots[0].time;
 
 	function handleChange(event: Event) {
 		let target = event.target as HTMLInputElement;
@@ -11,8 +11,8 @@
 
 		let time = (parseInt(target.value) / 100) * maxTime;
 
-		for (let i = 0; i < $world.length; i++) {
-			if ($world[i].time > time + $world[0].time) {
+		for (let i = 0; i < $world.snapshots.length; i++) {
+			if ($world.snapshots[i].time > time + $world.snapshots[0].time) {
 				$sliderTick = i;
 				break;
 			}

@@ -5,7 +5,7 @@
 
 	$: speedMetersPerSecond = ($speed * 1000) / 3600;
 
-	let firstTime = $world[0].time;
+	let firstTime = $world.snapshots[0].time;
 
 	onMount(() => {
 		let stats = new Stats();
@@ -34,7 +34,7 @@
 	<p>{$speed.toFixed(1)} km/h</p>
 	<p>{speedMetersPerSecond.toFixed(1)} m/s</p>
 	<p>{$tick} tick</p>
-	<p>{($world[$tick].time - firstTime).toFixed(2)}s time</p>
+	<p>{($world.snapshots[$tick].time - firstTime).toFixed(2)}s time</p>
 </div>
 
 <style lang="scss">

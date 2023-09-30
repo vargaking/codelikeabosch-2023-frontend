@@ -18,13 +18,22 @@ export type WorldSnapshotType = {
 	objects: ObjectSnapshotType[];
 };
 
+export type calculatedData = {
+	snapshots: WorldSnapshotType[];
+	object_meta: {
+		id: {
+			color: string;
+		};
+	};
+};
+
 export const tick = writable(0);
 
 export const sliderTick = writable(0);
 
 export const isPlaying = writable(false);
 
-export const world: Writable<WorldSnapshotType[]> = writable();
+export const world: Writable<calculatedData> = writable();
 
 export const backend_url = writable('https://dene.sh/bosch/api');
 
