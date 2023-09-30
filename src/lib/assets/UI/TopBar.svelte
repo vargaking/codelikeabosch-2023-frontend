@@ -1,25 +1,65 @@
 <script lang="ts">
 	import BoschSVG from '$lib/assets/SVG/BoschSVG.svelte';
-
+	import { textSplitter } from '$lib/utils';
+	import { getAllDemoNames, getSingleDemoData, processUserFile } from '../../../api';
+	import type { DemoData } from '../../../types';
+	
 	let dropdownShowed = false;
+	let enteredText = '';
+	let datasetServer: DemoData[]  = [];
+	let datasetArr: DemoData[]  = [];
+	let files: FileList;
+
+	$: if (enteredText.length > 0) {
+		datasetArr = datasetArr.filter((item) => item.name.toLowerCase().includes(enteredText.toLowerCase()));
+	} else {
+		datasetArr = [...datasetServer];
+	}
+
+	$: if (files) {
+		uploadUserFile(files[0]);
+	}
+
+	getNames();
+
+	async function getNames() {
+		 datasetServer = await getAllDemoNames();
+		 datasetArr = [...datasetServer];
+	}
+
+	async function selectDemoDetails(selectedDemo: number) {
+		const response = await getSingleDemoData(selectedDemo);
+		console.log(response);
+		dropdownShowed = false;
+	}
+
+	async function uploadUserFile(file: File) {
+		const data = await processUserFile(file);
+		console.log(data);
+	}
 </script>
 
 <nav class="navbar">
 	<span class="logo"><BoschSVG /></span>
 	<div class="input-container">
-		<input type="file" class="file-input file-input-bordered file-input-accent w-full max-w-xs" />
+		<input type="file" class="file-input file-input-bordered file-input-accent w-full max-w-xs" bind:files />
 		<span>OR</span>
-		<div class="dropdown-container">
+		<div class="dropdown-container" on:click={() => dropdownShowed = !dropdownShowed} role="presentation">
 			<input
 				type="text"
 				placeholder="Search for calculated results"
 				class="input input-bordered input-accent w-full max-w-xs"
-				on:focusin={() => (dropdownShowed = true)}
-				on:focusout={() => (dropdownShowed = false)}
+				bind:value={enteredText}
 			/>
 			{#if dropdownShowed}
 				<div class="result-container">
-					<div class="item">Dataset_1</div>
+					{#each datasetArr as item}
+						<button class="item" on:click={() => selectDemoDetails( item.id)}>{textSplitter(item.name, 20)}</button>
+					{/each}
+
+					{#if datasetArr.length == 0}
+						<div class="item">No results found</div>
+					{/if}
 				</div>
 			{/if}
 		</div>
@@ -62,11 +102,12 @@
 		color: #000;
 		text-align: center;
 		font-family: Kanit;
-		font-size: 20px;
+		font-size: 15px;
 		font-style: normal;
 		font-weight: 600;
 		line-height: normal;
 		padding: 8px 20px;
+		margin-bottom: 8px;
 		width: 100%;
 
 		border-radius: 10px;
