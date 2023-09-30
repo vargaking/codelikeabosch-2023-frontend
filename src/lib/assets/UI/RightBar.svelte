@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { isDirectionsShown, isCameraLocked } from './../../stores.ts';
+	import { isDirectionsShown, isCameraLocked } from '$lib/stores';
 	import { isSceneDataShown, isRenderStatsShown } from '$lib/stores';
 	import { logArray } from '$lib/stores';
 	import { backend_url, isPlaying, tick, world } from '$lib/stores';
 	import { onMount } from 'svelte';
 	import CheckBox from './CheckBox.svelte';
-	import CarHornSound from "../../../assets/car_horn.mp3";
+	import CarHornSound from '../../../assets/car_horn.mp3';
 
 	let audioFile: HTMLAudioElement;
 	onMount(() => {
@@ -19,6 +19,14 @@
 	$: {
 		if ($world && $world.snapshots && $world.snapshots[$tick].events.length > 0) {
 			for (let i = 0; i < $world.snapshots[$tick].events.length; i++) {
+				if ($world.snapshots[$tick].events[i].includes('Possible collision with object')) {
+					// cut the string from the beginning till the at word
+					let possibleCollision = $world.snapshots[$tick].events[i].substring(
+						$world.snapshots[$tick].events[i].indexOf('at') + 3
+					);
+
+					console.log(possibleCollision, 'possibleCollision');
+				}
 				$logArray = [
 					...$logArray,
 					{
