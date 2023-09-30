@@ -20,15 +20,15 @@
 </script>
 
 <nav class="right-container">
-	<div class="player">
+	<div class="player buttonContainer">
 		<button
-			class="btn btn-success"
+			class="btn btn-success startButton"
 			on:click={() => {
 				$isPlaying = true;
 			}}>Play</button
 		>
 		<button
-			class="btn btn-alert"
+			class="btn btn-alert stopButton"
 			on:click={() => {
 				$isPlaying = false;
 			}}>Stop</button
@@ -40,7 +40,7 @@
 		type="text"
 		placeholder="Backend url"
 		bind:value={$backend_url}
-		class="input input-bordered w-full max-w-xs"
+		class="input input-bordered w-full max-w-xs mt-2"
 	/>
 	<div class="group">
 		<CheckBox checked={$isRenderStatsShown} cb={(e) => ($isRenderStatsShown = e.target ? e.target.checked : false)}
@@ -63,7 +63,7 @@
 
 		{#if $logArray.length == 0}
 			<span class="item">
-				<span class="content">No logs</span>
+				<span class="content text-center">No logs</span>
 			</span>
 		{/if}
 	</div>
@@ -86,20 +86,42 @@
 		color: #000;
 		text-align: center;
 		font-family: Kanit;
-		font-size: 50px;
+		font-size: 30px;
 		font-style: normal;
 		font-weight: 600;
 		line-height: normal;
+		margin-top: 30px;
 	}
 
 	.log {
 		background-color: #edecec;
 		padding: 10px;
 		border-radius: 10px;
+		margin-top: 5px;
+		height: 20rem;
+		overflow-y: scroll;
 	}
 
 	.item {
 		display: flex;
 		justify-content: space-between;
+		margin-bottom: 5px;
+	}
+
+	.startButton{
+		padding-left: 2.5rem;
+		padding-right: 2.5rem;
+		margin-right: 1.5rem;
+	}
+
+	.stopButton{
+		padding-left: 2.5rem;
+		padding-right: 2.5rem;
+	}
+
+	.buttonContainer{
+		display: flex;
+		justify-content: center;
+		
 	}
 </style>
