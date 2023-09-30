@@ -94,7 +94,7 @@
 />
 
 {#each Object.entries(currentData.objects) as [key, object]}
-	<T.Mesh position={[object.y - currentData.host.y, 0.5, object.x - currentData.host.x]}>
+	<T.Mesh position={[object.y, 0.5, object.x]}>
 		<T.SphereGeometry args={[1, 32, 32]} />
 		<T.MeshStandardMaterial color="red" />
 	</T.Mesh>
