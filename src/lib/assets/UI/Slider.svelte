@@ -5,8 +5,11 @@
 
 	$: value = ((world[$tick].time - world[0].time) / maxTime) * 100;
 
-	function handleChange(event) {
-		let time = (event.target.value / 100) * maxTime;
+	function handleChange(event: Event) {
+		let target = event.target as HTMLInputElement;
+		if(!target) return;
+
+		let time = (parseInt(target.value) / 100) * maxTime;
 
 		for (let i = 0; i < world.length; i++) {
 			if (world[i].time > time + world[0].time) {
