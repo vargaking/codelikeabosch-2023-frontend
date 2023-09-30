@@ -34,10 +34,8 @@ export const sliderTick = writable(0);
 
 export const isPlaying = writable(false);
 
+export const logArray = writable([]);
+
 export const world: Writable<calculatedData> = writable();
 
 export const backend_url = writable('https://dene.sh/bosch/api');
-
-world.subscribe((value) => {
-	console.log(value);
-});

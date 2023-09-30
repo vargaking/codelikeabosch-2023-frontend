@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { sliderTick, tick, world, isPlaying } from '$lib/stores';
+	import { sliderTick, tick, world, isPlaying, logArray } from '$lib/stores';
 
 	$: value = (($world.snapshots[$tick].time - $world.snapshots[0].time) / maxTime) * 100;
 
@@ -15,6 +15,23 @@
 			if ($world.snapshots[i].time > time + $world.snapshots[0].time) {
 				$sliderTick = i;
 				break;
+			}
+		}
+
+		$logArray = [];
+
+		for (let i = 0; i < $sliderTick; i++) {
+			if ($world.snapshots[i].events.length > 0) {
+				// push to logarray store
+				for (let j = 0; j < $world.snapshots[i].events.length; j++) {
+					$logArray = [
+						...$logArray,
+						{
+							message: $world.snapshots[i].events[j],
+							time: ($world.snapshots[i].time - $world.snapshots[0].time).toFixed(2)
+						}
+					];
+				}
 			}
 		}
 	}

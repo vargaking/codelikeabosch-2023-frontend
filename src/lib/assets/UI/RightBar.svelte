@@ -1,21 +1,28 @@
 <script lang="ts">
+	import { logArray } from '$lib/stores';
 	import { backend_url, isPlaying, tick, world } from '$lib/stores';
 	import type { Log } from '../../../types';
-	import CheckBox from './CheckBox.svelte';	
-	
-	const logs:Log[] = [];
+	import CheckBox from './CheckBox.svelte';
 
-	
-	$: if ($world && $world.snapshots && $world.snapshots[$tick].events.length > 0) {
-		for(let i = 0; i < $world.snapshots[$tick].events.length; i++){
-			logs.push({
-				message: $world.snapshots[$tick].events[i],
-				time: $world.snapshots[$tick].time.toFixed(0)
-			});
+	let logs: Log[] = [];
+
+	console.log($world);
+
+	$: {
+		if ($world && $world.snapshots && $world.snapshots[$tick].events.length > 0) {
+			console.log('Log');
+			for (let i = 0; i < $world.snapshots[$tick].events.length; i++) {
+				$logArray = [
+					...$logArray,
+					{
+						message: $world.snapshots[$tick].events[i],
+						time: ($world.snapshots[$tick].time - $world.snapshots[0].time).toFixed(2)
+					}
+				];
+			}
+			console.log($logArray);
 		}
 	}
-
-
 </script>
 
 <nav class="right-container">
@@ -47,21 +54,20 @@
 		<CheckBox>Show directions</CheckBox>
 	</div>
 
-	<p class="title">Logger</p>
+	<p class="title">Events</p>
 	<div class="log">
-		{#each logs as log}
+		{#each $logArray as log}
 			<span class="item">
-				<span class="time">2023.09.23. ${log.time}</span>
+				<span class="time">{log.time}</span>
 				<span class="content">{log.message}</span>
 			</span>
 		{/each}
 
-			{#if logs.length == 0}
-				<span class="item">
-					<span class="time">2023.09.23. 00:00:00</span>
-					<span class="content">No logs</span>
-				</span>
-			{/if}
+		{#if $logArray.length == 0}
+			<span class="item">
+				<span class="content">No logs</span>
+			</span>
+		{/if}
 	</div>
 </nav>
 
