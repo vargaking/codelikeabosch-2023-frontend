@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { radian } from '$lib/utils';
 	import { T } from '@threlte/core';
-	import { world } from '$lib/stores';
+	import { isDirectionsShown, world } from '$lib/stores';
 
 	type RoadDataType = {
 		x: number;
@@ -53,14 +53,16 @@
 	});
 </script>
 
-<T.Group>
-	{#each roadData as data, i}
-		<T.Mesh position={[data.y, 1, data.x]} rotation={[radian(90), 0, -data.yaw]}>
-			<T.BoxGeometry args={[0.2, data.distance + 0.5, 0.2]} />
-			<T.MeshStandardMaterial color="#b214b8" />
-		</T.Mesh>
-	{/each}
-</T.Group>
+{#if $isDirectionsShown}
+	<T.Group>
+		{#each roadData as data, i}
+			<T.Mesh position={[data.y, 1, data.x]} rotation={[radian(90), 0, -data.yaw]}>
+				<T.BoxGeometry args={[0.2, data.distance + 0.5, 0.2]} />
+				<T.MeshStandardMaterial color="#b214b8" />
+			</T.Mesh>
+		{/each}
+	</T.Group>
+{/if}
 
 <T.Group>
 	{#each roadData as data, i}
@@ -70,7 +72,6 @@
 		</T.Mesh>
 	{/each}
 </T.Group>
-
 <T.Group>
 	{#each roadData as data, i}
 		<T.Mesh position={[data.y, -0.5, data.x]} rotation={[radian(90), 0, -data.yaw]}>

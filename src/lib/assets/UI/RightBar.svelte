@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { isDirectionsShown, isCameraLocked } from './../../stores.ts';
 	import { isSceneDataShown, isRenderStatsShown } from '$lib/stores';
 	import { logArray } from '$lib/stores';
 	import { backend_url, isPlaying, tick, world } from '$lib/stores';
@@ -43,13 +44,25 @@
 		class="input input-bordered w-full max-w-xs mt-2"
 	/>
 	<div class="group">
-		<CheckBox checked={$isRenderStatsShown} cb={(e) => ($isRenderStatsShown = e.target ? e.target.checked : false)}
+		<CheckBox
+			checked={$isRenderStatsShown}
+			cb={(e) => ($isRenderStatsShown = e.target ? e.target.checked : false)}
 			>Show render stats</CheckBox
 		>
-		<CheckBox checked={$isSceneDataShown} cb={(e) => ($isSceneDataShown = e.target ? e.target.checked : false)}
+		<CheckBox
+			checked={$isSceneDataShown}
+			cb={(e) => ($isSceneDataShown = e.target ? e.target.checked : false)}
 			>Show scene data</CheckBox
 		>
-		<CheckBox>Show directions</CheckBox>
+		<CheckBox
+			checked={$isDirectionsShown}
+			cb={(e) => ($isDirectionsShown = e.target ? e.target.checked : false)}
+			>Show directions</CheckBox
+		>
+		<CheckBox
+			checked={$isCameraLocked}
+			cb={(e) => ($isCameraLocked = e.target ? e.target.checked : false)}>Camera locked</CheckBox
+		>
 	</div>
 
 	<p class="title">Events</p>
@@ -108,20 +121,19 @@
 		margin-bottom: 5px;
 	}
 
-	.startButton{
+	.startButton {
 		padding-left: 2.5rem;
 		padding-right: 2.5rem;
 		margin-right: 1.5rem;
 	}
 
-	.stopButton{
+	.stopButton {
 		padding-left: 2.5rem;
 		padding-right: 2.5rem;
 	}
 
-	.buttonContainer{
+	.buttonContainer {
 		display: flex;
 		justify-content: center;
-		
 	}
 </style>

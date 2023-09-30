@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { sliderTick, tick, world, isPlaying, logArray } from '$lib/stores';
 
+	sliderTick.subscribe((tick) => {
+		if (tick == 0) value = 0;
+		console.log(tick);
+	});
+
 	$: value = (($world.snapshots[$tick].time - $world.snapshots[0].time) / maxTime) * 100;
 
 	let maxTime = $world.snapshots[$world.snapshots.length - 1].time - $world.snapshots[0].time;
