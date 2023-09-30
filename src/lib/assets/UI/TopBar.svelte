@@ -56,6 +56,7 @@
 		width: 100%;
 		padding: 10px;
 		border-radius: 15px;
+		z-index: 10000;
 	}
 
 	.item {
