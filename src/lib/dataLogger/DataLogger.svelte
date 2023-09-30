@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { isSceneDataShown, isRenderStatsShown } from './../stores.ts';
 	import { speed, tick, world } from '$lib/stores';
 	import Stats from 'stats.js';
 	import { onMount } from 'svelte';
@@ -13,6 +14,14 @@
 		stats.showPanel(0);
 
 		stats.dom.style.top = '80px';
+
+		isRenderStatsShown.subscribe((value) => {
+			if (value) {
+				stats.dom.style.display = 'block';
+			} else {
+				stats.dom.style.display = 'none';
+			}
+		});
 
 		document.body.appendChild(stats.dom);
 
@@ -30,12 +39,14 @@
 	});
 </script>
 
-<div class="logger-container">
-	<p>{$speed.toFixed(1)} km/h</p>
-	<p>{speedMetersPerSecond.toFixed(1)} m/s</p>
-	<p>{$tick} tick</p>
-	<p>{($world.snapshots[$tick].time - firstTime).toFixed(2)}s time</p>
-</div>
+{#if $isSceneDataShown}
+	<div class="logger-container">
+		<p>{$speed.toFixed(1)} km/h</p>
+		<p>{speedMetersPerSecond.toFixed(1)} m/s</p>
+		<p>{$tick} tick</p>
+		<p>{($world.snapshots[$tick].time - firstTime).toFixed(2)}s time</p>
+	</div>
+{/if}
 
 <style lang="scss">
 	.logger-container {

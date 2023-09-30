@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { isSceneDataShown, isRenderStatsShown } from './../../stores.ts';
 	import { logArray } from '$lib/stores';
 	import { backend_url, isPlaying, tick, world } from '$lib/stores';
 	import type { Log } from '../../../types';
@@ -49,8 +50,12 @@
 		class="input input-bordered w-full max-w-xs"
 	/>
 	<div class="group">
-		<CheckBox>Show render stats</CheckBox>
-		<CheckBox>Show speed</CheckBox>
+		<CheckBox checked={$isRenderStatsShown} cb={(e) => ($isRenderStatsShown = e.target.checked)}
+			>Show render stats</CheckBox
+		>
+		<CheckBox checked={$isSceneDataShown} cb={(e) => ($isSceneDataShown = e.target.checked)}
+			>Show scene data</CheckBox
+		>
 		<CheckBox>Show directions</CheckBox>
 	</div>
 

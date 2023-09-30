@@ -1,11 +1,13 @@
 <script lang="ts">
-	let checked = false;
-	export let cb = {};
+	export let checked = false;
+
+	// export function prop
+	export let cb: (event: Event) => void;
 </script>
 
 <div class="form-control">
 	<label class="cursor-pointer label">
 		<span class="label-text"><slot /></span>
-		<input type="checkbox" bind:checked class="checkbox checkbox-accent" />
+		<input type="checkbox" {checked} on:change={cb} class="checkbox checkbox-accent" />
 	</label>
 </div>

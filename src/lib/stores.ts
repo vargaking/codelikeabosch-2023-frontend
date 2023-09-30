@@ -34,6 +34,10 @@ export const sliderTick = writable(0);
 
 export const isPlaying = writable(false);
 
+export const isSceneDataShown = writable(true);
+
+export const isRenderStatsShown = writable(false);
+
 export const logArray = writable([]);
 
 export const world: Writable<calculatedData> = writable();
