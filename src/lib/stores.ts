@@ -26,6 +26,8 @@ export const isPlaying = writable(false);
 
 export const world: Writable<WorldSnapshotType[]> = writable();
 
+export const backend_url = writable('https://dene.sh/bosch/api');
+
 world.subscribe((value) => {
 	console.log(value);
 });
