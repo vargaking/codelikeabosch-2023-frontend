@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { isDirectionsShown, isCameraLocked } from './../../stores.ts';
+	import { isDirectionsShown, isCameraLocked } from '$lib/stores';
 	import { isSceneDataShown, isRenderStatsShown } from '$lib/stores';
 	import { logArray } from '$lib/stores';
 	import { backend_url, isPlaying, tick, world } from '$lib/stores';
 	import { onMount } from 'svelte';
 	import CheckBox from './CheckBox.svelte';
-	import CarHornSound from "../../../assets/car_horn.mp3";
+	import CarHornSound from '../../../assets/car_horn.mp3';
 
 	let audioFile: HTMLAudioElement;
 	let playedOnce = false;
