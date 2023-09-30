@@ -51,14 +51,14 @@
 	<div class="log">
 		{#each logs as log}
 			<span class="item">
-				<span class="time">2023.09.23. ${log.time}</span>
+				<span class="time">${log.time}</span>
 				<span class="content">{log.message}</span>
 			</span>
 		{/each}
 
 			{#if logs.length == 0}
 				<span class="item">
-					<span class="time">2023.09.23. 00:00:00</span>
+					<span class="time">00:00</span>
 					<span class="content">No logs</span>
 				</span>
 			{/if}
