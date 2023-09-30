@@ -2,7 +2,7 @@
 	export let checked = false;
 
 	// export function prop
-	export let cb: (event: Event) => void;
+	export let cb: (event: any) => void;
 </script>
 
 <div class="form-control">

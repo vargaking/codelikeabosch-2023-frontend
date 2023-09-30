@@ -2,16 +2,10 @@
 	import { isSceneDataShown, isRenderStatsShown } from './../../stores.ts';
 	import { logArray } from '$lib/stores';
 	import { backend_url, isPlaying, tick, world } from '$lib/stores';
-	import type { Log } from '../../../types';
 	import CheckBox from './CheckBox.svelte';
-
-	let logs: Log[] = [];
-
-	console.log($world);
 
 	$: {
 		if ($world && $world.snapshots && $world.snapshots[$tick].events.length > 0) {
-			console.log('Log');
 			for (let i = 0; i < $world.snapshots[$tick].events.length; i++) {
 				$logArray = [
 					...$logArray,
@@ -21,7 +15,6 @@
 					}
 				];
 			}
-			console.log($logArray);
 		}
 	}
 </script>
@@ -50,10 +43,10 @@
 		class="input input-bordered w-full max-w-xs"
 	/>
 	<div class="group">
-		<CheckBox checked={$isRenderStatsShown} cb={(e) => ($isRenderStatsShown = e.target.checked)}
+		<CheckBox checked={$isRenderStatsShown} cb={(e) => ($isRenderStatsShown = e.target ? e.target.checked : false)}
 			>Show render stats</CheckBox
 		>
-		<CheckBox checked={$isSceneDataShown} cb={(e) => ($isSceneDataShown = e.target.checked)}
+		<CheckBox checked={$isSceneDataShown} cb={(e) => ($isSceneDataShown = e.target ? e.target.checked : false)}
 			>Show scene data</CheckBox
 		>
 		<CheckBox>Show directions</CheckBox>

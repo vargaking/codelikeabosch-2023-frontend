@@ -3,16 +3,9 @@
 	import { Canvas } from '@threlte/core';
 	import Scene from './Scene/Scene.svelte';
 	import DataLogger from '$lib/dataLogger/DataLogger.svelte';
-	import { speed, tick, world } from '$lib/stores';
+	import { world } from '$lib/stores';
 	import RightBar from '$lib/assets/UI/RightBar.svelte';
-	import { onMount } from 'svelte';
 	import Slider from '$lib/assets/UI/Slider.svelte';
-
-	let delta;
-
-	onMount(() => {
-		console.log($world);
-	});
 </script>
 
 <TopBar />

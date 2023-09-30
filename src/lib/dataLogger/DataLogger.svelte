@@ -28,8 +28,6 @@
 		function animate() {
 			stats.begin();
 
-			// monitored code goes here
-
 			stats.end();
 
 			requestAnimationFrame(animate);

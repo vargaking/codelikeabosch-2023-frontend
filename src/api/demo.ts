@@ -17,7 +17,6 @@ export const getSingleDemoData = async (id: number) => {
 
 export const processUserFile = async (file: File) => {
 	const formData = new FormData();
-	console.log(file);
 	formData.append('file', file);
 	const { data } = await axios.post('/demo', formData, {
 		headers: {

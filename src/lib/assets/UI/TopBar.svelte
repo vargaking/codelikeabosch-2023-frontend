@@ -49,8 +49,6 @@
 	async function uploadUserFile(file: File) {
 		const data = await processUserFile(file);
 		world.set(data);
-
-		console.log(data);
 	}
 </script>
 
