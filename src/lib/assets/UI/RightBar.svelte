@@ -8,24 +8,19 @@
 	import CarHornSound from '../../../assets/car_horn.mp3';
 
 	let audioFile: HTMLAudioElement;
+	let playedOnce = false;
 	onMount(() => {
 		audioFile = new Audio(CarHornSound);
 		audioFile.muted = false;
 		audioFile.loop = true;
-
-		//audioFile.play();
 	});
 
 	$: {
 		if ($world && $world.snapshots && $world.snapshots[$tick].events.length > 0) {
 			for (let i = 0; i < $world.snapshots[$tick].events.length; i++) {
-				if ($world.snapshots[$tick].events[i].includes('Possible collision with object')) {
-					// cut the string from the beginning till the at word
-					let possibleCollision = $world.snapshots[$tick].events[i].substring(
-						$world.snapshots[$tick].events[i].indexOf('at') + 3
-					);
-
-					console.log(possibleCollision, 'possibleCollision');
+				if($world.snapshots[$tick].events[i].includes("Possible collision with object") && !playedOnce) {
+					audioFile.play();
+					playedOnce = true;
 				}
 				$logArray = [
 					...$logArray,
