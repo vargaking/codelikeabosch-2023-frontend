@@ -1,6 +1,6 @@
 <script lang="ts">
 	import BoschSVG from '$lib/assets/SVG/BoschSVG.svelte';
-	import { world } from '$lib/stores';
+	import { logArray, world } from '$lib/stores';
 	import { textSplitter } from '$lib/utils';
 	import { getAllDemoNames, getSingleDemoData, processUserFile } from '../../../api';
 	import type { DemoData } from '../../../types';
@@ -25,13 +25,24 @@
 
 	getNames();
 
+	function currentTime() {
+		const now = new Date();
+		return `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+	}
+
 	async function getNames() {
 		datasetServer = await getAllDemoNames();
 		datasetArr = [...datasetServer];
 	}
 
 	async function selectDemoDetails(selectedDemo: number) {
+		$logArray = [
+			...$logArray,
+			{ message: 'Loading demo data...', time: currentTime(), permanent: true }
+		];
 		const response = await getSingleDemoData(selectedDemo);
+		console.log(response);
+		$logArray = [...$logArray, { message: 'Demo loaded', time: currentTime(), permanent: true }];
 		world.set(response);
 		dropdownShowed = false;
 	}
@@ -39,8 +50,6 @@
 	async function uploadUserFile(file: File) {
 		const data = await processUserFile(file);
 		world.set(data);
-
-		console.log(data);
 	}
 </script>
 

@@ -18,7 +18,8 @@
 			}
 		}
 
-		$logArray = [];
+		// keep only elements with permanent true
+		$logArray = $logArray.filter((item) => item.permanent);
 
 		for (let i = 0; i < $sliderTick; i++) {
 			if ($world.snapshots[i].events.length > 0) {

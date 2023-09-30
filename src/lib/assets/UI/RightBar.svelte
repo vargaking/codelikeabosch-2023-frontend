@@ -1,16 +1,11 @@
 <script lang="ts">
+	import { isSceneDataShown, isRenderStatsShown } from '$lib/stores';
 	import { logArray } from '$lib/stores';
 	import { backend_url, isPlaying, tick, world } from '$lib/stores';
-	import type { Log } from '../../../types';
 	import CheckBox from './CheckBox.svelte';
-
-	let logs: Log[] = [];
-
-	console.log($world);
 
 	$: {
 		if ($world && $world.snapshots && $world.snapshots[$tick].events.length > 0) {
-			console.log('Log');
 			for (let i = 0; i < $world.snapshots[$tick].events.length; i++) {
 				$logArray = [
 					...$logArray,
@@ -20,21 +15,20 @@
 					}
 				];
 			}
-			console.log($logArray);
 		}
 	}
 </script>
 
 <nav class="right-container">
-	<div class="player">
+	<div class="player buttonContainer">
 		<button
-			class="btn btn-success"
+			class="btn btn-success startButton"
 			on:click={() => {
 				$isPlaying = true;
 			}}>Play</button
 		>
 		<button
-			class="btn btn-alert"
+			class="btn btn-alert stopButton"
 			on:click={() => {
 				$isPlaying = false;
 			}}>Stop</button
@@ -46,11 +40,15 @@
 		type="text"
 		placeholder="Backend url"
 		bind:value={$backend_url}
-		class="input input-bordered w-full max-w-xs"
+		class="input input-bordered w-full max-w-xs mt-2"
 	/>
 	<div class="group">
-		<CheckBox>Show render stats</CheckBox>
-		<CheckBox>Show speed</CheckBox>
+		<CheckBox checked={$isRenderStatsShown} cb={(e) => ($isRenderStatsShown = e.target ? e.target.checked : false)}
+			>Show render stats</CheckBox
+		>
+		<CheckBox checked={$isSceneDataShown} cb={(e) => ($isSceneDataShown = e.target ? e.target.checked : false)}
+			>Show scene data</CheckBox
+		>
 		<CheckBox>Show directions</CheckBox>
 	</div>
 
@@ -65,7 +63,7 @@
 
 		{#if $logArray.length == 0}
 			<span class="item">
-				<span class="content">No logs</span>
+				<span class="content text-center">No logs</span>
 			</span>
 		{/if}
 	</div>
@@ -88,20 +86,42 @@
 		color: #000;
 		text-align: center;
 		font-family: Kanit;
-		font-size: 50px;
+		font-size: 30px;
 		font-style: normal;
 		font-weight: 600;
 		line-height: normal;
+		margin-top: 30px;
 	}
 
 	.log {
 		background-color: #edecec;
 		padding: 10px;
 		border-radius: 10px;
+		margin-top: 5px;
+		height: 20rem;
+		overflow-y: scroll;
 	}
 
 	.item {
 		display: flex;
 		justify-content: space-between;
+		margin-bottom: 5px;
+	}
+
+	.startButton{
+		padding-left: 2.5rem;
+		padding-right: 2.5rem;
+		margin-right: 1.5rem;
+	}
+
+	.stopButton{
+		padding-left: 2.5rem;
+		padding-right: 2.5rem;
+	}
+
+	.buttonContainer{
+		display: flex;
+		justify-content: center;
+		
 	}
 </style>

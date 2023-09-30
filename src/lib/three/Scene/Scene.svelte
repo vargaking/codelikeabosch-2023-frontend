@@ -1,22 +1,16 @@
 <script lang="ts">
 	import { T, extend, useThrelte, useFrame } from '@threlte/core';
-	import { Environment, interactivity, useInteractivity } from '@threlte/extras';
-	import { spring } from 'svelte/motion';
 	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 	extend({ OrbitControls });
 
-	import Car from '$lib/assets/car/Car.svelte';
 	import Car2 from '$lib/assets/car/Car2.svelte';
 	import Road from '$lib/assets/road/Road.svelte';
-	import { speed, world, tick, type WorldSnapshotType, sliderTick, isPlaying } from '$lib/stores';
-	import { radian } from '$lib/utils';
-	import { GridHelper, SphereGeometry } from 'three';
+	import { speed, world, tick, sliderTick, isPlaying } from '$lib/stores';
+	import type { WorldSnapshotType } from '../../../types';
 
 	let currentData: WorldSnapshotType,
 		nextData: WorldSnapshotType,
-		currentTime: number,
-		dataDelta: number,
 		elapsed: number = 0,
 		firstTime: number;
 
@@ -46,9 +40,6 @@
 
 		$speed = (currentData.host.v * 3600) / 1000;
 
-		dataDelta = nextData.time - currentData.time;
-		currentTime = currentData.time - firstTime;
-
 		if (elapsed >= nextData.time - firstTime) {
 			$tick += 1;
 		}
@@ -56,15 +47,6 @@
 
 	const { renderer, invalidate } = useThrelte();
 </script>
-
-<!--
-<Environment
-	path="/"
-	files="rural_asphalt_road_1k.hdr"
-	format="hdr"
-	groundProjection={{ radius: 200, height: 8, scale: { x: 100, y: 100, z: 100 } }}
-/>
--->
 
 <T.Fog attach="fog" args={['#302f2f', 0, 200]} />
 
@@ -94,8 +76,14 @@
 />
 
 {#each Object.entries(currentData.objects) as [key, object]}
-	<T.Mesh position={[object.y, 0.5, object.x]}>
-		<T.SphereGeometry args={[1, 32, 32]} />
-		<T.MeshStandardMaterial color={$world.object_meta[key].color} />
-	</T.Mesh>
+	<T.Group>
+		<T.Mesh position={[object.y, 0.5, object.x]}>
+			<T.SphereGeometry args={[1, 32, 32]} />
+			<T.MeshStandardMaterial color={$world.object_meta[key].color} />
+		</T.Mesh>
+		<T.Mesh position={[object.y, 0.5, object.x]} rotation.y={object.yaw}>
+			<T.BoxGeometry args={[3, 0.25, 0.25]} />
+			<T.MeshStandardMaterial color={$world.object_meta[key].color} />
+		</T.Mesh>
+	</T.Group>
 {/each}
