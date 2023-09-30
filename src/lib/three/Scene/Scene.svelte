@@ -115,11 +115,11 @@
 	<T.Group>
 		<T.Mesh position={[object.y, 0.7, object.x]}>
 			<T.SphereGeometry args={[0.5, 32, 32]} />
-			<T.MeshStandardMaterial color={$world.object_meta[key].color} />
+			<T.MeshStandardMaterial color={object.color} />
 		</T.Mesh>
 		<T.Mesh position={[object.y, 0.7, object.x]} rotation.y={object.yaw}>
 			<T.BoxGeometry args={[1.5, 0.25, 0.25]} />
-			<T.MeshStandardMaterial color={$world.object_meta[key].color} />
+			<T.MeshStandardMaterial color={object.color} />
 		</T.Mesh>
 	</T.Group>
 {/each}

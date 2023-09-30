@@ -58,6 +58,7 @@
 			{ message: 'Processed data recieved', time: currentTime(), permanent: true }
 		];
 		world.set(data);
+		console.log(data);
 		$logArray = [
 			...$logArray,
 			{ message: 'Processed data loaded', time: currentTime(), permanent: true }
