@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isSceneDataShown, isRenderStatsShown } from './../../stores.ts';
+	import { isSceneDataShown, isRenderStatsShown } from '$lib/stores';
 	import { logArray } from '$lib/stores';
 	import { backend_url, isPlaying, tick, world } from '$lib/stores';
 	import CheckBox from './CheckBox.svelte';

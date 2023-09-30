@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isSceneDataShown, isRenderStatsShown } from './../stores.ts';
+	import { isSceneDataShown, isRenderStatsShown } from '$lib/stores';
 	import { speed, tick, world } from '$lib/stores';
 	import Stats from 'stats.js';
 	import { onMount } from 'svelte';

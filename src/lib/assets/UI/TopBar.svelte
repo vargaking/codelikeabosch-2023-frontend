@@ -41,6 +41,7 @@
 			{ message: 'Loading demo data...', time: currentTime(), permanent: true }
 		];
 		const response = await getSingleDemoData(selectedDemo);
+		console.log(response);
 		$logArray = [...$logArray, { message: 'Demo loaded', time: currentTime(), permanent: true }];
 		world.set(response);
 		dropdownShowed = false;

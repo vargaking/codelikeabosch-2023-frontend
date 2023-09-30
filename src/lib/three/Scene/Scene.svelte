@@ -76,8 +76,14 @@
 />
 
 {#each Object.entries(currentData.objects) as [key, object]}
-	<T.Mesh position={[object.y, 0.5, object.x]}>
-		<T.SphereGeometry args={[1, 32, 32]} />
-		<T.MeshStandardMaterial color={$world.object_meta[key].color} />
-	</T.Mesh>
+	<T.Group>
+		<T.Mesh position={[object.y, 0.5, object.x]}>
+			<T.SphereGeometry args={[1, 32, 32]} />
+			<T.MeshStandardMaterial color={$world.object_meta[key].color} />
+		</T.Mesh>
+		<T.Mesh position={[object.y, 0.5, object.x]} rotation.y={object.yaw}>
+			<T.BoxGeometry args={[3, 0.25, 0.25]} />
+			<T.MeshStandardMaterial color={$world.object_meta[key].color} />
+		</T.Mesh>
+	</T.Group>
 {/each}
