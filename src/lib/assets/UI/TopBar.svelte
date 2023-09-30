@@ -48,8 +48,20 @@
 	}
 
 	async function uploadUserFile(file: File) {
+		$logArray = [
+			...$logArray,
+			{ message: 'Uploading data...', time: currentTime(), permanent: true }
+		];
 		const data = await processUserFile(file);
+		$logArray = [
+			...$logArray,
+			{ message: 'Processed data recieved', time: currentTime(), permanent: true }
+		];
 		world.set(data);
+		$logArray = [
+			...$logArray,
+			{ message: 'Processed data loaded', time: currentTime(), permanent: true }
+		];
 	}
 </script>
 
@@ -121,6 +133,8 @@
 		padding: 10px;
 		border-radius: 15px;
 		z-index: 10000;
+		max-height: 500px;
+		overflow-y: auto;
 	}
 
 	.item {

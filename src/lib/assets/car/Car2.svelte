@@ -4,7 +4,7 @@ Command: npx @threlte/gltf@1.0.1 static/car2.gltf
 -->
 
 <script>
-	import { speed } from '$lib/stores';
+	import { isPlaying, speed } from '$lib/stores';
 	import { Group } from 'three';
 	import { T, forwardEventHandlers, useFrame } from '@threlte/core';
 	import { useGltf, useGltfAnimations, useInteractivity } from '@threlte/extras';
@@ -24,7 +24,7 @@ Command: npx @threlte/gltf@1.0.1 static/car2.gltf
 	$: wheelRotationPerSec = ($speed * 1000) / 3600 / (wheelDiameter * Math.PI); // calc speed in m/s, then divide by wheel circumference
 
 	useFrame((_, delta) => {
-		if (delta != 0) wheelRotation += radian(wheelRotationPerSec / 1 / delta);
+		if (delta != 0 && $isPlaying) wheelRotation += radian(wheelRotationPerSec / 1 / delta);
 	});
 
 	useInteractivity();

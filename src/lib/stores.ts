@@ -13,6 +13,10 @@ export const isSceneDataShown = writable(true);
 
 export const isRenderStatsShown = writable(true);
 
+export const isDirectionsShown = writable(false);
+
+export const isCameraLocked = writable(false);
+
 export const logArray: Writable<Log[]> = writable([]);
 
 export const world: Writable<CalculatedData> = writable();

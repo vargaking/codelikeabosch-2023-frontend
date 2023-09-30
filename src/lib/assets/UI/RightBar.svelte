@@ -1,12 +1,32 @@
 <script lang="ts">
+	import { isDirectionsShown, isCameraLocked } from '$lib/stores';
 	import { isSceneDataShown, isRenderStatsShown } from '$lib/stores';
 	import { logArray } from '$lib/stores';
 	import { backend_url, isPlaying, tick, world } from '$lib/stores';
+	import { onMount } from 'svelte';
 	import CheckBox from './CheckBox.svelte';
+	import CarHornSound from '../../../assets/car_horn.mp3';
+
+	let audioFile: HTMLAudioElement;
+	onMount(() => {
+		audioFile = new Audio(CarHornSound);
+		audioFile.muted = false;
+		audioFile.loop = true;
+
+		//audioFile.play();
+	});
 
 	$: {
 		if ($world && $world.snapshots && $world.snapshots[$tick].events.length > 0) {
 			for (let i = 0; i < $world.snapshots[$tick].events.length; i++) {
+				if ($world.snapshots[$tick].events[i].includes('Possible collision with object')) {
+					// cut the string from the beginning till the at word
+					let possibleCollision = $world.snapshots[$tick].events[i].substring(
+						$world.snapshots[$tick].events[i].indexOf('at') + 3
+					);
+
+					console.log(possibleCollision, 'possibleCollision');
+				}
 				$logArray = [
 					...$logArray,
 					{
@@ -43,13 +63,25 @@
 		class="input input-bordered w-full max-w-xs mt-2"
 	/>
 	<div class="group">
-		<CheckBox checked={$isRenderStatsShown} cb={(e) => ($isRenderStatsShown = e.target ? e.target.checked : false)}
+		<CheckBox
+			checked={$isRenderStatsShown}
+			cb={(e) => ($isRenderStatsShown = e.target ? e.target.checked : false)}
 			>Show render stats</CheckBox
 		>
-		<CheckBox checked={$isSceneDataShown} cb={(e) => ($isSceneDataShown = e.target ? e.target.checked : false)}
+		<CheckBox
+			checked={$isSceneDataShown}
+			cb={(e) => ($isSceneDataShown = e.target ? e.target.checked : false)}
 			>Show scene data</CheckBox
 		>
-		<CheckBox>Show directions</CheckBox>
+		<CheckBox
+			checked={$isDirectionsShown}
+			cb={(e) => ($isDirectionsShown = e.target ? e.target.checked : false)}
+			>Show directions</CheckBox
+		>
+		<CheckBox
+			checked={$isCameraLocked}
+			cb={(e) => ($isCameraLocked = e.target ? e.target.checked : false)}>Camera locked</CheckBox
+		>
 	</div>
 
 	<p class="title">Events</p>
@@ -108,20 +140,19 @@
 		margin-bottom: 5px;
 	}
 
-	.startButton{
+	.startButton {
 		padding-left: 2.5rem;
 		padding-right: 2.5rem;
 		margin-right: 1.5rem;
 	}
 
-	.stopButton{
+	.stopButton {
 		padding-left: 2.5rem;
 		padding-right: 2.5rem;
 	}
 
-	.buttonContainer{
+	.buttonContainer {
 		display: flex;
 		justify-content: center;
-		
 	}
 </style>
