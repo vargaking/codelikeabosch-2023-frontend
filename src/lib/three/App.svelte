@@ -6,6 +6,7 @@
 	import { speed, tick, world } from '$lib/stores';
 	import RightBar from '$lib/assets/UI/RightBar.svelte';
 	import { onMount } from 'svelte';
+	import Slider from '$lib/assets/UI/Slider.svelte';
 
 	let delta;
 
@@ -21,7 +22,7 @@
 		<Scene />
 	</Canvas>
 </div>
-
+<Slider />
 <DataLogger />
 <RightBar />
 

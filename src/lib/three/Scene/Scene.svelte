@@ -9,9 +9,9 @@
 	import Car from '$lib/assets/car/Car.svelte';
 	import Car2 from '$lib/assets/car/Car2.svelte';
 	import Road from '$lib/assets/road/Road.svelte';
-	import { speed, world, tick, type WorldSnapshotType } from '$lib/stores';
+	import { speed, world, tick, type WorldSnapshotType, sliderTick, isPlaying } from '$lib/stores';
 	import { radian } from '$lib/utils';
-	import { SphereGeometry } from 'three';
+	import { GridHelper, SphereGeometry } from 'three';
 
 	let currentData: WorldSnapshotType = world[0],
 		nextData: WorldSnapshotType = world[1],
@@ -20,8 +20,15 @@
 		elapsed: number = 0;
 	const firstTime = world[0].time;
 
+	sliderTick.subscribe((tick) => {
+		if (tick == 0) return;
+		$tick = tick;
+		elapsed = world[tick].time - firstTime;
+	});
+
 	useFrame((_, delta) => {
 		if ($tick >= world.length - 1) return;
+		if (!$isPlaying) return;
 		elapsed += delta;
 
 		currentData = world[$tick];
@@ -50,6 +57,8 @@
 -->
 
 <T.Fog attach="fog" args={['#302f2f', 0, 200]} />
+
+<T.GridHelper args={[400, 400, 0x444444, 0x444444]} />
 
 <T.PerspectiveCamera
 	makeDefault
