@@ -12,7 +12,7 @@
 	onMount(() => {
 		audioFile = new Audio(CarHornSound);
 		audioFile.muted = false;
-		audioFile.loop = true;
+		audioFile.loop = false;
 	});
 
 	$: {
