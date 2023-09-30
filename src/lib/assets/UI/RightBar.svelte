@@ -3,7 +3,18 @@
 	import { isSceneDataShown, isRenderStatsShown } from '$lib/stores';
 	import { logArray } from '$lib/stores';
 	import { backend_url, isPlaying, tick, world } from '$lib/stores';
+	import { onMount } from 'svelte';
 	import CheckBox from './CheckBox.svelte';
+	import CarHornSound from "../../../assets/car_horn.mp3";
+
+	let audioFile: HTMLAudioElement;
+	onMount(() => {
+		audioFile = new Audio(CarHornSound);
+		audioFile.muted = false;
+		audioFile.loop = true;
+
+		//audioFile.play();
+	});
 
 	$: {
 		if ($world && $world.snapshots && $world.snapshots[$tick].events.length > 0) {
