@@ -6,6 +6,7 @@
 	import { world } from '$lib/stores';
 	import RightBar from '$lib/assets/UI/RightBar.svelte';
 	import Slider from '$lib/assets/UI/Slider.svelte';
+	import Popup from '$lib/assets/popup/Popup.svelte';
 </script>
 
 <TopBar />
@@ -26,6 +27,7 @@
 	<DataLogger />
 {/if}
 <RightBar />
+<Popup />
 
 <style lang="scss">
 	@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap');
