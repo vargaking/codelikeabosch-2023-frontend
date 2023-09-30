@@ -6,23 +6,32 @@
 	import { speed, tick, world } from '$lib/stores';
 	import RightBar from '$lib/assets/UI/RightBar.svelte';
 	import { onMount } from 'svelte';
+	import Slider from '$lib/assets/UI/Slider.svelte';
 
 	let delta;
 
 	onMount(() => {
-		console.log(world[$tick + 1].time - world[$tick].time);
-		delta = world[$tick + 1].time - world[$tick].time;
+		console.log($world);
 	});
 </script>
 
 <TopBar />
 <div class="canvas-container">
-	<Canvas>
-		<Scene />
-	</Canvas>
+	{#if $world != undefined}
+		<Canvas>
+			<Scene />
+		</Canvas>
+	{:else}
+		<div class="waiter">
+			<p class="loading" />
+			<p class="error">Please load a file</p>
+		</div>
+	{/if}
 </div>
-
-<DataLogger />
+{#if $world != undefined}
+	<Slider />
+	<DataLogger />
+{/if}
 <RightBar />
 
 <style lang="scss">
@@ -33,7 +42,18 @@
 	}
 
 	.canvas-container {
+		position: relative;
 		height: calc(100% - 80px) !important;
 		width: calc(100% - 392px) !important;
+	}
+
+	.waiter {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 </style>

@@ -1,8 +1,24 @@
 <script lang="ts">
+	import { isPlaying } from '$lib/stores';
 	import CheckBox from './CheckBox.svelte';
 </script>
 
 <nav class="right-container">
+	<div class="player">
+		<button
+			class="btn btn-success"
+			on:click={() => {
+				$isPlaying = true;
+			}}>Play</button
+		>
+		<button
+			class="btn btn-alert"
+			on:click={() => {
+				$isPlaying = false;
+			}}>Stop</button
+		>
+	</div>
+
 	<p class="title">Settings</p>
 
 	<div class="group">

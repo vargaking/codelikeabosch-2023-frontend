@@ -4,24 +4,56 @@
 	import { Group, PlaneGeometry } from 'three';
 	import { world } from '$lib/stores';
 
-	let roadData = [];
+	type RoadDataType = {
+		x: number;
+		y: number;
+		yaw: number;
+		distance: number;
+		allDistance: number;
+	};
 
-	const firstTime = world[0].time;
+	let roadData: RoadDataType[] = [];
+
+	const firstTime = $world[0].time;
 
 	let delta: number,
 		distance: number,
+		x: number = 0,
+		y: number = 0,
 		allDistance: number = 0;
 
-	world.forEach((data, index) => {
-		if (index === world.length - 1) return;
-		delta = world[index + 1].time - data.time;
+	$world.forEach((data, index) => {
+		if (index === $world.length - 1) return;
+		delta = $world[index + 1].time - data.time;
+
+		if (index === 0) {
+			roadData.push({
+				x: 0,
+				y: 0,
+				yaw: data.host.yaw,
+				distance: 0,
+				allDistance: 0
+			});
+			return;
+		}
+
 		distance = data.host.v * delta;
 
+		x = Math.cos(radian(data.host.yaw)) * distance + $world[index - 1].host.x;
+		y = Math.sin(radian(data.host.yaw)) * distance + $world[index - 1].host.y;
+
 		if (distance <= 0) return;
+		/*if (index === world.length - 2) {
+			distance = 20;
+			x += (Math.cos(radian(data.host.yaw)) * distance) / 2;
+			y += (Math.sin(radian(data.host.yaw)) * distance) / 2;
+		}*/
 
 		delta = roadData.push({
-			distance,
+			x,
+			y,
 			yaw: data.host.yaw,
+			distance: distance,
 			allDistance: allDistance
 		});
 
@@ -32,9 +64,9 @@
 </script>
 
 <T.Group>
-	{#each roadData as data}
-		<T.Mesh position={[0, -0.5, data.allDistance]} rotation={[radian(90), 0, -data.yaw]}>
-			<T.BoxGeometry args={[8, data.distance, 1]} />
+	{#each roadData as data, i}
+		<T.Mesh position={[data.y, -0.5, data.x]} rotation={[radian(90), 0, -data.yaw]}>
+			<T.BoxGeometry args={[8, data.distance + 0.5, 1]} />
 			<T.MeshStandardMaterial color="#686868" />
 		</T.Mesh>
 	{/each}

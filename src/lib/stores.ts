@@ -1,5 +1,5 @@
-import { writable } from 'svelte/store';
-import Data from '../data/data.json';
+import { writable, type Writable } from 'svelte/store';
+import Data from '../data/data_2.json';
 
 export const speed = writable(0);
 export type ObjectSnapshotType = {
@@ -20,4 +20,12 @@ export type WorldSnapshotType = {
 
 export const tick = writable(0);
 
-export const world: WorldSnapshotType[] = Data;
+export const sliderTick = writable(0);
+
+export const isPlaying = writable(false);
+
+export const world: Writable<WorldSnapshotType[]> = writable();
+
+world.subscribe((value) => {
+	console.log(value);
+});
