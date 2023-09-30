@@ -15,7 +15,7 @@ export const isRenderStatsShown = writable(true);
 
 export const isDirectionsShown = writable(false);
 
-export const isCameraLocked = writable(false);
+export const isCameraLocked = writable(true);
 
 export const logArray: Writable<Log[]> = writable([]);
 

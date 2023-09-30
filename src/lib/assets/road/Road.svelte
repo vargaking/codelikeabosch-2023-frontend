@@ -66,17 +66,17 @@
 {/if}
 
 <T.Group>
-	{#each roadData.slice(0, $tick + 20) as data, i}
+	{#each roadData.slice(0, $tick) as data, i}
 		<T.Mesh position={[data.y, -0.5, data.x]} rotation={[radian(90), 0, -data.yaw]}>
-			<T.BoxGeometry args={[8.5, data.distance + 0.5, 0.9]} />
+			<T.BoxGeometry args={[4, data.distance + 0.5, 0.9]} />
 			<T.MeshStandardMaterial color="#194bff" />
 		</T.Mesh>
 	{/each}
 </T.Group>
 <T.Group>
-	{#each roadData.slice(0, $tick + 20) as data, i}
+	{#each roadData.slice(0, $tick) as data, i}
 		<T.Mesh position={[data.y, -0.5, data.x]} rotation={[radian(90), 0, -data.yaw]}>
-			<T.BoxGeometry args={[8, data.distance + 0.5, 1]} />
+			<T.BoxGeometry args={[3.5, data.distance + 0.5, 1]} />
 			<T.MeshStandardMaterial color="#686868" />
 		</T.Mesh>
 	{/each}
