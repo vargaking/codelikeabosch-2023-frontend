@@ -1,6 +1,21 @@
 <script lang="ts">
-	import { backend_url, isPlaying } from '$lib/stores';
-	import CheckBox from './CheckBox.svelte';
+	import { backend_url, isPlaying, tick, world } from '$lib/stores';
+	import type { Log } from '../../../types';
+	import CheckBox from './CheckBox.svelte';	
+	
+	const logs:Log[] = [];
+
+	
+	$: if ($world && $world.snapshots && $world.snapshots[$tick].events.length > 0) {
+		for(let i = 0; i < $world.snapshots[$tick].events.length; i++){
+			logs.push({
+				message: $world.snapshots[$tick].events[i],
+				time: $world.snapshots[$tick].time.toFixed(0)
+			});
+		}
+	}
+
+
 </script>
 
 <nav class="right-container">
@@ -34,14 +49,19 @@
 
 	<p class="title">Logger</p>
 	<div class="log">
-		<span class="item">
-			<span class="time">2023.09.23. 13:05</span>
-			<span class="content">Server connected</span>
-		</span>
-		<span class="item">
-			<span class="time">2023.09.23. 13:07</span>
-			<span class="content">Crash detected</span>
-		</span>
+		{#each logs as log}
+			<span class="item">
+				<span class="time">2023.09.23. ${log.time}</span>
+				<span class="content">{log.message}</span>
+			</span>
+		{/each}
+
+			{#if logs.length == 0}
+				<span class="item">
+					<span class="time">2023.09.23. 00:00:00</span>
+					<span class="content">No logs</span>
+				</span>
+			{/if}
 	</div>
 </nav>
 

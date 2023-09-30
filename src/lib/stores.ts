@@ -16,6 +16,7 @@ export type WorldSnapshotType = {
 	time: number;
 	host: ObjectSnapshotType;
 	objects: ObjectSnapshotType[];
+	events: string[];
 };
 
 export type calculatedData = {
