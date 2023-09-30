@@ -12,13 +12,13 @@
 	onMount(() => {
 		audioFile = new Audio(CarHornSound);
 		audioFile.muted = false;
-		audioFile.loop = true;
+		audioFile.loop = false;
 	});
 
 	$: {
 		if ($world && $world.snapshots && $world.snapshots[$tick].events.length > 0) {
 			for (let i = 0; i < $world.snapshots[$tick].events.length; i++) {
-				if($world.snapshots[$tick].events[i].includes("Possible collision with object") && !playedOnce) {
+				if($world.snapshots[$tick].events[i].includes("collision possible") && !playedOnce) {
 					audioFile.play();
 					playedOnce = true;
 				}
