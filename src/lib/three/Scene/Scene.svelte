@@ -16,6 +16,8 @@
 		firstTime: number;
 
 	let cameraPosition: [number, number, number] = [0, 10, -15];
+	let cameraPositionExpected: [number, number, number] = [0, 10, -15];
+
 	let cameraYaw: number = 0;
 
 	isCameraLocked.subscribe((value) => {
@@ -57,11 +59,17 @@
 		nextData = $world.snapshots[$tick + 1];
 
 		if ($isCameraLocked) {
-			cameraPosition = [
+			cameraPositionExpected = [
 				currentData.host.y - Math.sin(currentData.host.yaw) * 20,
 				10,
 				currentData.host.x - Math.cos(currentData.host.yaw) * 20
 			];
+			cameraPosition = [
+				cameraPosition[0] + ((cameraPositionExpected[0] - cameraPosition[0]) * delta) / 1,
+				cameraPosition[1] + ((cameraPositionExpected[1] - cameraPosition[1]) * delta) / 1,
+				cameraPosition[2] + ((cameraPositionExpected[2] - cameraPosition[2]) * delta) / 1
+			];
+
 			cameraYaw = currentData.host.yaw;
 
 			refCamera.lookAt(currentData.host.y, 0, currentData.host.x);
