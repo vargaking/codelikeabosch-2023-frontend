@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { tick } from '$lib/stores';
 	import { radian } from '$lib/utils';
 	import { T } from '@threlte/core';
 	import { isDirectionsShown, world } from '$lib/stores';
@@ -39,7 +40,7 @@
 		x = Math.cos(radian(data.host.yaw)) * distance + $world.snapshots[index - 1].host.x;
 		y = Math.sin(radian(data.host.yaw)) * distance + $world.snapshots[index - 1].host.y;
 
-		if (distance <= 0) return;
+		//if (distance <= 0) return;
 
 		delta = roadData.push({
 			x,
@@ -65,7 +66,7 @@
 {/if}
 
 <T.Group>
-	{#each roadData as data, i}
+	{#each roadData.slice(0, $tick + 20) as data, i}
 		<T.Mesh position={[data.y, -0.5, data.x]} rotation={[radian(90), 0, -data.yaw]}>
 			<T.BoxGeometry args={[8.5, data.distance + 0.5, 0.9]} />
 			<T.MeshStandardMaterial color="#194bff" />
@@ -73,7 +74,7 @@
 	{/each}
 </T.Group>
 <T.Group>
-	{#each roadData as data, i}
+	{#each roadData.slice(0, $tick + 20) as data, i}
 		<T.Mesh position={[data.y, -0.5, data.x]} rotation={[radian(90), 0, -data.yaw]}>
 			<T.BoxGeometry args={[8, data.distance + 0.5, 1]} />
 			<T.MeshStandardMaterial color="#686868" />
