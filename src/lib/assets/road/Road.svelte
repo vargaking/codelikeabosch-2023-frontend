@@ -14,7 +14,7 @@
 
 	let roadData: RoadDataType[] = [];
 
-	const firstTime = world[0].time;
+	const firstTime = $world[0].time;
 
 	let delta: number,
 		distance: number,
@@ -22,9 +22,9 @@
 		y: number = 0,
 		allDistance: number = 0;
 
-	world.forEach((data, index) => {
-		if (index === world.length - 1) return;
-		delta = world[index + 1].time - data.time;
+	$world.forEach((data, index) => {
+		if (index === $world.length - 1) return;
+		delta = $world[index + 1].time - data.time;
 
 		if (index === 0) {
 			roadData.push({
@@ -39,8 +39,8 @@
 
 		distance = data.host.v * delta;
 
-		x = Math.cos(radian(data.host.yaw)) * distance + world[index - 1].host.x;
-		y = Math.sin(radian(data.host.yaw)) * distance + world[index - 1].host.y;
+		x = Math.cos(radian(data.host.yaw)) * distance + $world[index - 1].host.x;
+		y = Math.sin(radian(data.host.yaw)) * distance + $world[index - 1].host.y;
 
 		if (distance <= 0) return;
 		/*if (index === world.length - 2) {

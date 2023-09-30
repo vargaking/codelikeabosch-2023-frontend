@@ -1,17 +1,20 @@
 <script lang="ts">
 	import BoschSVG from '$lib/assets/SVG/BoschSVG.svelte';
+	import { world } from '$lib/stores';
 	import { textSplitter } from '$lib/utils';
 	import { getAllDemoNames, getSingleDemoData, processUserFile } from '../../../api';
 	import type { DemoData } from '../../../types';
-	
+
 	let dropdownShowed = false;
 	let enteredText = '';
-	let datasetServer: DemoData[]  = [];
-	let datasetArr: DemoData[]  = [];
+	let datasetServer: DemoData[] = [];
+	let datasetArr: DemoData[] = [];
 	let files: FileList;
 
 	$: if (enteredText.length > 0) {
-		datasetArr = datasetArr.filter((item) => item.name.toLowerCase().includes(enteredText.toLowerCase()));
+		datasetArr = datasetArr.filter((item) =>
+			item.name.toLowerCase().includes(enteredText.toLowerCase())
+		);
 	} else {
 		datasetArr = [...datasetServer];
 	}
@@ -23,13 +26,13 @@
 	getNames();
 
 	async function getNames() {
-		 datasetServer = await getAllDemoNames();
-		 datasetArr = [...datasetServer];
+		datasetServer = await getAllDemoNames();
+		datasetArr = [...datasetServer];
 	}
 
 	async function selectDemoDetails(selectedDemo: number) {
 		const response = await getSingleDemoData(selectedDemo);
-		console.log(response);
+		world.set(response);
 		dropdownShowed = false;
 	}
 
@@ -42,9 +45,17 @@
 <nav class="navbar">
 	<span class="logo"><BoschSVG /></span>
 	<div class="input-container">
-		<input type="file" class="file-input file-input-bordered file-input-accent w-full max-w-xs" bind:files />
+		<input
+			type="file"
+			class="file-input file-input-bordered file-input-accent w-full max-w-xs"
+			bind:files
+		/>
 		<span>OR</span>
-		<div class="dropdown-container" on:click={() => dropdownShowed = !dropdownShowed} role="presentation">
+		<div
+			class="dropdown-container"
+			on:click={() => (dropdownShowed = !dropdownShowed)}
+			role="presentation"
+		>
 			<input
 				type="text"
 				placeholder="Search for calculated results"
@@ -54,7 +65,9 @@
 			{#if dropdownShowed}
 				<div class="result-container">
 					{#each datasetArr as item}
-						<button class="item" on:click={() => selectDemoDetails( item.id)}>{textSplitter(item.name, 20)}</button>
+						<button class="item" on:click={() => selectDemoDetails(item.id)}
+							>{textSplitter(item.name, 30)}</button
+						>
 					{/each}
 
 					{#if datasetArr.length == 0}
@@ -86,7 +99,7 @@
 
 	.dropdown-container {
 		position: relative;
-		width: 250px;
+		width: 300px;
 	}
 
 	.result-container {

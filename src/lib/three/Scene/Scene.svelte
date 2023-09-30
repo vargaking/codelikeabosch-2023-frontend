@@ -13,26 +13,36 @@
 	import { radian } from '$lib/utils';
 	import { GridHelper, SphereGeometry } from 'three';
 
-	let currentData: WorldSnapshotType = world[0],
-		nextData: WorldSnapshotType = world[1],
+	let currentData: WorldSnapshotType,
+		nextData: WorldSnapshotType,
 		currentTime: number,
 		dataDelta: number,
-		elapsed: number = 0;
-	const firstTime = world[0].time;
+		elapsed: number = 0,
+		firstTime: number;
 
 	sliderTick.subscribe((tick) => {
 		if (tick == 0) return;
 		$tick = tick;
-		elapsed = world[tick].time - firstTime;
+		try {
+			elapsed = $world[tick].time - firstTime;
+		} catch {
+			elapsed = 0;
+		}
 	});
 
+	if ($world.length > 0) {
+		currentData = $world[0];
+		nextData = $world[1];
+		firstTime = $world[0].time;
+	}
+
 	useFrame((_, delta) => {
-		if ($tick >= world.length - 1) return;
+		if ($tick >= $world.length - 1) return;
 		if (!$isPlaying) return;
 		elapsed += delta;
 
-		currentData = world[$tick];
-		nextData = world[$tick + 1];
+		currentData = $world[$tick];
+		nextData = $world[$tick + 1];
 
 		$speed = (currentData.host.v * 3600) / 1000;
 

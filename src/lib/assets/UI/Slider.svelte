@@ -1,9 +1,21 @@
 <script lang="ts">
 	import { sliderTick, tick, world, isPlaying } from '$lib/stores';
 
-	const maxTime = world[world.length - 1].time - world[0].time;
+	let maxTime: number;
 
-	$: value = ((world[$tick].time - world[0].time) / maxTime) * 100;
+	let value: number;
+
+	$: {
+		try {
+			value = ((world[$tick].time - world[0].time) / maxTime) * 100;
+		} catch {
+			value = 0;
+		}
+	}
+
+	if (world.length > 0) {
+		maxTime = world[world.length - 1].time - world[0].time;
+	}
 
 	function handleChange(event) {
 		let time = (event.target.value / 100) * maxTime;
